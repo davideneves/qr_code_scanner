@@ -148,6 +148,9 @@ class QRView(private val registrar: PluginRegistry.Registrar, id: Int) :
             "resumeCamera" -> {
                 resumeCamera()
             }
+            "stopCamera" -> {
+                dispose()
+            }
         }
     }
 
