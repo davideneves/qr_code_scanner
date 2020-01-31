@@ -25,7 +25,7 @@ public class QRView: NSObject, FlutterPlatformView {
             do {
                 try scanner?.startScanning(resultBlock: { codes in
                     if let code = codes?.first?.stringValue {
-                        self.channel.invokeMethod("onRecognizeQR", arguments: "CODING -> \(code)")
+                        self.channel.invokeMethod("onRecognizeQR", arguments: code)
                     }
                 })
             } catch {
