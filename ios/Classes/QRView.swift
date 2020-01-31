@@ -8,7 +8,7 @@
 import Foundation
 import MTBBarcodeScanner
 
-public class QRView:NSObject,FlutterPlatformView {
+public class QRView: NSObject, FlutterPlatformView {
     @IBOutlet var previewView: UIView!
     var scanner: MTBBarcodeScanner?
     var registrar: FlutterPluginRegistrar
@@ -24,18 +24,20 @@ public class QRView:NSObject,FlutterPlatformView {
         if success {
             do {
                 try scanner?.startScanning(resultBlock: { codes in
-                    if let codes = codes {
-                        for code in codes {
-                            let stringValue = code.stringValue!
-                            self.channel.invokeMethod("onRecognizeQR", arguments: stringValue)
-                        }
+                    if let code = codes?.first?.stringValue {
+                        self.channel.invokeMethod("onRecognizeQR", arguments: "CODING -> \(code)")
                     }
                 })
             } catch {
                 NSLog("Unable to start scanning")
             }
         } else {
-            UIAlertView(title: "Scanning Unavailable", message: "This app does not have permission to access the camera", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "Ok").show()
+            UIAlertView(title: "Scanning Unavailable",
+                        message: "This app does not have permission to access the camera",
+                        delegate: nil,
+                        cancelButtonTitle: nil,
+                        otherButtonTitles: "Ok")
+                .show()
         }
     }
     
@@ -43,20 +45,22 @@ public class QRView:NSObject,FlutterPlatformView {
         channel.setMethodCallHandler({
             [weak self] (call: FlutterMethodCall, result: FlutterResult) -> Void in
             switch(call.method){
-                case "setDimensions":
-                    var arguments = call.arguments as! Dictionary<String, Double>
-                    self?.setDimensions(width: arguments["width"] ?? 0,height: arguments["height"] ?? 0)
-                case "flipCamera":
-                    self?.flipCamera()
-                case "toggleFlash":
-                    self?.toggleFlash()
-                case "pauseCamera":
-                    self?.pauseCamera()
-                case "resumeCamera":
-                    self?.resumeCamera()
-                default:
-                    result(FlutterMethodNotImplemented)
-                    return
+            case "setDimensions":
+                var arguments = call.arguments as! Dictionary<String, Double>
+                self?.setDimensions(width: arguments["width"] ?? 0,height: arguments["height"] ?? 0)
+            case "flipCamera":
+                self?.flipCamera()
+            case "toggleFlash":
+                self?.toggleFlash()
+            case "pauseCamera":
+                self?.pauseCamera()
+            case "resumeCamera":
+                self?.resumeCamera()
+            case "stopCamera":
+                self?.stopCamera()
+            default:
+                result(FlutterMethodNotImplemented)
+                return
             }
         })
         return previewView
