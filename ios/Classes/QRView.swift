@@ -100,4 +100,10 @@ public class QRView:NSObject,FlutterPlatformView {
             }
         }
     }
+    
+    func stopCamera() {
+        if let sc: MTBBarcodeScanner = scanner {
+            sc.stopScanning()
+        }
+    }
 }
