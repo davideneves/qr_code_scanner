@@ -137,7 +137,12 @@ class QRViewController {
     _channel.invokeMethod("resumeCamera");
   }
 
+  void stopCamera() {
+    _channel.invokeMethod("stopCamera");
+  }
+
   void dispose() {
+    stopCamera();
     _scanUpdateController.close();
   }
 }
