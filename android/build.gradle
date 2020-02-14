@@ -29,7 +29,6 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
 
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -43,6 +42,18 @@ android {
     
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
+
+
+    buildTypes {
+        release {
+            debuggable false
+        }
+
+        debug {
+            debuggable false
+        }
+    }
+
 }
 
 dependencies {
