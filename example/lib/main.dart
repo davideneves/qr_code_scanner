@@ -11,7 +11,7 @@ const back_camera = "BACK CAMERA";
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   var qrText = "";
   var flashState = flash_on;
   var cameraState = front_camera;
-  QRViewController controller;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
@@ -57,10 +57,10 @@ class _QRViewExampleState extends State<QRViewExample> {
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.all(8.0),
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             if (controller != null) {
-                              controller.toggleFlash();
+                              controller!.toggleFlash();
                               if (_isFlashOn(flashState)) {
                                 setState(() {
                                   flashState = flash_off;
@@ -78,10 +78,10 @@ class _QRViewExampleState extends State<QRViewExample> {
                       ),
                       Container(
                         margin: EdgeInsets.all(8.0),
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             if (controller != null) {
-                              controller.flipCamera();
+                              controller!.flipCamera();
                               if (_isBackCamera(cameraState)) {
                                 setState(() {
                                   cameraState = front_camera;
@@ -105,7 +105,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.all(8.0),
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             controller?.pauseCamera();
                           },
@@ -114,7 +114,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       ),
                       Container(
                         margin: EdgeInsets.all(8.0),
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             controller?.resumeCamera();
                           },
@@ -152,7 +152,7 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   @override
   void dispose() {
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 }

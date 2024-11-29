@@ -39,7 +39,7 @@ class QRView(private val registrar: PluginRegistry.Registrar, id: Int) :
         channel = MethodChannel(registrar.messenger(), "net.touchcapture.qr.flutterqr/qrview_$id")
         channel.setMethodCallHandler(this)
         checkAndRequestPermission(null)
-        activity.application.registerActivityLifecycleCallbacks(this)
+        activity?.application?.registerActivityLifecycleCallbacks(this)
     }
 
     private fun flipCamera() {
@@ -128,7 +128,7 @@ class QRView(private val registrar: PluginRegistry.Registrar, id: Int) :
 
     private fun hasCameraPermission(): Boolean {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
-                activity.checkSelfPermission(Manifest.permission.CAMERA) == PERMISSION_GRANTED
+                activity?.checkSelfPermission(Manifest.permission.CAMERA) == PERMISSION_GRANTED
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
@@ -174,7 +174,7 @@ class QRView(private val registrar: PluginRegistry.Registrar, id: Int) :
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestingPermission = true
-                activity.requestPermissions(
+                activity?.requestPermissions(
                         arrayOf(Manifest.permission.CAMERA),
                         CAMERA_REQUEST_ID)
             }
@@ -185,35 +185,36 @@ class QRView(private val registrar: PluginRegistry.Registrar, id: Int) :
     // MARK - Application.ActivityLifecycleCallbacks Implementation
     //=======================================================================
 
-    override fun onActivityPaused(activity: Activity?) {
+
+    override fun onActivityPaused(activity: Activity) {
         if (activity == this.activity) {
             barcodeView?.pause()
         }
     }
 
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
         if (activity == this.activity) {
             barcodeView?.resume()
         }
     }
 
-    override fun onActivityStarted(activity: Activity?) {
+    override fun onActivityStarted(activity: Activity) {
         // not required
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
+    override fun onActivityDestroyed(activity: Activity) {
         // not required
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
         // not required
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity) {
         // not required
     }
 
-    override fun onActivityCreated(acitivy: Activity?, bundle: Bundle?) {
+    override fun onActivityCreated(acitivy: Activity, bundle: Bundle?) {
         // not required
     }
 

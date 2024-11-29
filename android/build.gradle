@@ -1,23 +1,29 @@
-group 'net.touchcapture.qr.flutterqr'
-version '1.0-SNAPSHOT'
-
+/*plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id 'org.jetbrains.kotlin.kapt'
+}*/
 buildscript {
-    ext.kotlin_version = '1.3.21'
+    ext.kotlin_version = '1.7.20'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:8.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
+
+group 'net.touchcapture.qr.flutterqr'
+version '1.0-SNAPSHOT'
+
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -27,7 +33,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 34
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -53,10 +59,9 @@ android {
             debuggable false
         }
     }
-
+    namespace 'net.touchcapture.qr.flutterqr'
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.journeyapps:zxing-android-embedded:3.6.0"
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }

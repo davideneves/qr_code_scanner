@@ -8,8 +8,8 @@ typedef void QRViewCreatedCallback(QRViewController controller);
 
 class QRView extends StatefulWidget {
   const QRView({
-    @required Key key,
-    @required this.onQRViewCreated,
+    required Key key,
+    required this.onQRViewCreated,
     this.overlay,
   })  : assert(key != null),
         assert(onQRViewCreated != null),
@@ -17,7 +17,7 @@ class QRView extends StatefulWidget {
 
   final QRViewCreatedCallback onQRViewCreated;
 
-  final ShapeBorder overlay;
+  final ShapeBorder? overlay;
 
   @override
   State<StatefulWidget> createState() => _QRViewState();
@@ -32,7 +32,7 @@ class _QRViewState extends State<QRView> {
         widget.overlay != null
             ? Container(
                 decoration: ShapeDecoration(
-                  shape: widget.overlay,
+                  shape: widget.overlay!,
                 ),
               )
             : Container(),
@@ -68,7 +68,7 @@ class _QRViewState extends State<QRView> {
     if (widget.onQRViewCreated == null) {
       return;
     }
-    widget.onQRViewCreated(QRViewController._(id, widget.key));
+    widget.onQRViewCreated(QRViewController._(id, widget.key as GlobalKey<State<StatefulWidget>>?));
   }
 }
 
@@ -82,8 +82,8 @@ class _CreationParams {
     );
   }
 
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -102,10 +102,10 @@ class QRViewController {
 
   Stream<String> get scannedDataStream => _scanUpdateController.stream;
 
-  QRViewController._(int id, GlobalKey qrKey)
+  QRViewController._(int id, GlobalKey? qrKey)
       : _channel = MethodChannel('net.touchcapture.qr.flutterqr/qrview_$id') {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final RenderBox renderBox = qrKey.currentContext.findRenderObject();
+      final RenderBox renderBox = qrKey!.currentContext!.findRenderObject() as RenderBox;
       _channel.invokeMethod("setDimensions",
           {"width": renderBox.size.width, "height": renderBox.size.height});
     }
